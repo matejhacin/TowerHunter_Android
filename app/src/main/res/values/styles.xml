@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Text -->
+    <style name="Text">
+        <item name="color">@color/text</item>
+    </style>
+    <style name="Text.Small" parent="Text">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Text.Regular" parent="Text">
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="Text.Title" parent="Text">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <!-- Buttons -->
+    <style name="Button">
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="Button.Primary" parent="Button">
+        <item name="background">@drawable/background_button_primary</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="Button.Secondary" parent="Button">
+        <item name="background">@drawable/background_button_secondary</item>
+        <item name="android:textColor">@color/primary</item>
+    </style>
+
+</resources>
