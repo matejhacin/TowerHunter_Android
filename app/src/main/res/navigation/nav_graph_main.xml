@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/newUserFragment">
+
+    <fragment
+        android:id="@+id/newUserFragment"
+        android:name="com.eles.towerhunter.views.newUser.NewUserFragment"
+        android:label="fragment_new_user"
+        tools:layout="@layout/fragment_new_user" >
+        <action
+            android:id="@+id/action_newUserFragment_to_photoExampleFragment"
+            app:destination="@id/photoExampleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoExampleFragment"
+        android:name="com.eles.towerhunter.views.camera.PhotoExampleFragment"
+        android:label="fragment_photo_example"
+        tools:layout="@layout/fragment_photo_example" >
+        <action
+            android:id="@+id/action_photoExampleFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.eles.towerhunter.views.camera.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" />
+</navigation>

@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Tower Hunter</string>
+    <string name="general_yes">Da</string>
+    <string name="general_no">Ne</string>
+    <string name="new_user_welcome_message">Dobrodošli v aplikaciji\nTower Hunter</string>
+    <string name="new_user_vegetation_management_assessment_message">Ali ste usposobljeni za ocenjevanje stanja vegetacije?</string>
+    <string name="landscape_warning_message">Pred fotografiranjem\ntelefon obrnite.</string>
+    <string name="photo_example_confirmation_button">Naprej</string>
+    <string name="photo_example_text_1">Postavite se na sredino terase (na sredino med levi in desni gozdni rob).</string>
+    <string name="photo_example_text_2">Slikajte vzporedno s tlemi (ne obračajte kamere navzgor ali navzdol).</string>
+    <string name="camera_missing_permission_warning">Camera permission needs to be enabled in the settings.</string>
 </resources>
