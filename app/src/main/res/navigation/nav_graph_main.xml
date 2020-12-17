@@ -3,20 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/newUserFragment">
-
+    app:startDestination="@id/mainMenuFragment">
     <fragment
-        android:id="@+id/newUserFragment"
-        android:name="com.eles.towerhunter.views.newUser.NewUserFragment"
-        android:label="fragment_new_user"
-        tools:layout="@layout/fragment_new_user" >
+        android:id="@+id/mainMenuFragment"
+        android:name="com.eles.towerhunter.views.mainMenu.MainMenuFragment"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
         <action
-            android:id="@+id/action_newUserFragment_to_photoExampleFragment"
+            android:id="@+id/action_mainMenuFragment_to_photoExampleFragment"
             app:destination="@id/photoExampleFragment" />
     </fragment>
     <fragment
         android:id="@+id/photoExampleFragment"
-        android:name="com.eles.towerhunter.views.camera.PhotoExampleFragment"
+        android:name="com.eles.towerhunter.views.photoExample.PhotoExampleFragment"
         android:label="fragment_photo_example"
         tools:layout="@layout/fragment_photo_example" >
         <action
@@ -27,5 +26,38 @@
         android:id="@+id/cameraFragment"
         android:name="com.eles.towerhunter.views.camera.CameraFragment"
         android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" />
+        tools:layout="@layout/fragment_camera" >
+        <action
+            android:id="@+id/action_cameraFragment_to_confirmPhotoFragment"
+            app:destination="@id/confirmPhotoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmPhotoFragment"
+        android:name="com.eles.towerhunter.views.photoConfirmation.ConfirmPhotoFragment"
+        android:label="fragment_confirm_photo"
+        tools:layout="@layout/fragment_confirm_photo" >
+        <action
+            android:id="@+id/action_confirmPhotoFragment_to_vegetationStateQuestionFragment"
+            app:destination="@id/vegetationStateQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/vegetationStateQuestionFragment"
+        android:name="com.eles.towerhunter.views.vegetationStateQuestionFragment.VegetationStateQuestionFragment"
+        android:label="fragment_vegetation_state_question"
+        tools:layout="@layout/fragment_vegetation_state_question" >
+        <action
+            android:id="@+id/action_vegetationStateQuestionFragment_to_photoUploadSuccessFragment"
+            app:destination="@id/photoUploadSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoUploadSuccessFragment"
+        android:name="com.eles.towerhunter.views.photoUploadSuccess.PhotoUploadSuccessFragment"
+        android:label="fragment_photo_upload_success"
+        tools:layout="@layout/fragment_photo_upload_success" >
+        <action
+            android:id="@+id/action_photoUploadSuccessFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment"
+            app:popUpTo="@id/cameraFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>

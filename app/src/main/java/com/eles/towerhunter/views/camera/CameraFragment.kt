@@ -1,40 +1,36 @@
 package com.eles.towerhunter.views.camera
 
-import android.Manifest
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResultRegistry
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.FragmentCameraBinding
 import com.eles.towerhunter.views.activities.MainActivity
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class CameraFragment : Fragment() {
 
     private val viewModel: CameraViewModel by viewModels()
     private var _binding: FragmentCameraBinding? = null
     private val views get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.prepareActivityResult(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,13 +44,28 @@ class CameraFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initCamera()
         initClickListener()
+        initData()
     }
 
     override fun onResume() {
         super.onResume()
         val activity = requireActivity() as MainActivity
         activity.supportActionBar?.hide()
-        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
+    }
+
+    /*
+    Data
+     */
+
+    private fun initData() {
+        viewModel.cameraPermissionGranted.observe(viewLifecycleOwner, Observer { granted ->
+            if (granted) {
+                startCamera()
+            } else {
+                Toast.makeText(requireContext(), R.string.camera_missing_permission_warning, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     /*
@@ -69,6 +80,10 @@ class CameraFragment : Fragment() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
+    private fun navigateToPhotoConfirmation() {
+        requireView().findNavController().navigate(R.id.action_cameraFragment_to_confirmPhotoFragment)
+    }
+
     /*
     Camera
      */
@@ -76,18 +91,10 @@ class CameraFragment : Fragment() {
     private val imageCapture = ImageCapture.Builder().build()
 
     private fun initCamera() {
-        if (viewModel.cameraPermissionGranted(requireContext())) {
-            // Start camera if permissions are OK
+        if (viewModel.checkCameraPermission(requireContext())) {
             startCamera()
         } else {
-            // Request permissions if they're missing
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-                if (granted) {
-                    startCamera()
-                } else {
-                    Toast.makeText(requireContext(), R.string.camera_missing_permission_warning, Toast.LENGTH_LONG).show()
-                }
-            }.launch(Manifest.permission.CAMERA)
+            viewModel.requestCameraPermission()
         }
     }
 
@@ -119,7 +126,8 @@ class CameraFragment : Fragment() {
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
-                    views.lastPhotoImageView.setImageURI(savedUri)
+                    viewModel.savePhotoUri(savedUri)
+                    navigateToPhotoConfirmation()
                 }
             })
     }

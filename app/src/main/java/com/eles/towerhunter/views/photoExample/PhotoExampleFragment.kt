@@ -1,4 +1,4 @@
-package com.eles.towerhunter.views.camera
+package com.eles.towerhunter.views.photoExample
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.FragmentPhotoExampleBinding
+import com.eles.towerhunter.views.activities.MainActivity
 
 class PhotoExampleFragment : Fragment() {
 
@@ -32,7 +33,9 @@ class PhotoExampleFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
+        val activity = requireActivity() as MainActivity
+        activity.supportActionBar?.show()
+        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
     }
 
     private fun initClickListener() {

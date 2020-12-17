@@ -1,5 +1,6 @@
 package com.eles.towerhunter.views.newUser
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.FragmentNewUserBinding
+import com.eles.towerhunter.views.activities.MainActivity
 
 class NewUserFragment : Fragment(), View.OnClickListener {
 
@@ -41,7 +43,7 @@ class NewUserFragment : Fragment(), View.OnClickListener {
     }
 
     private fun navigateNext() {
-        requireView().findNavController().navigate(R.id.action_newUserFragment_to_photoExampleFragment)
+        requireView().findNavController().navigate(R.id.action_newUserFragment_to_locationPermissionFragment)
     }
 
     override fun onClick(v: View?) {

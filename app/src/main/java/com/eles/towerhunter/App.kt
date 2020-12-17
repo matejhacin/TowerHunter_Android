@@ -2,13 +2,13 @@ package com.eles.towerhunter
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.eles.towerhunter.data.UserConfiguration
+import com.eles.towerhunter.data.LocalStorage
 
 class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        UserConfiguration.initialize(applicationContext)
+        LocalStorage.initialize(applicationContext)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.vegetationStateQuestionFragment.VegetationStateQuestionFragment"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/img_vegetation_question"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/Text.Regular"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/vegetation_question_title"
+        app:layout_constraintBottom_toTopOf="@id/yesButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="center"
+        android:layout_marginBottom="32dp" />
+
+    <Button
+        style="@style/Button.Primary"
+        android:id="@+id/yesButton"
+        android:layout_width="0dp"
+        android:text="@string/general_yes"
+        app:layout_constraintBottom_toTopOf="@id/maybeButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/verticalGuideline"/>
+
+    <Button
+        style="@style/Button.Primary"
+        android:id="@+id/noButton"
+        android:layout_width="0dp"
+        android:text="@string/general_no"
+        app:layout_constraintBottom_toTopOf="@id/maybeButton"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/verticalGuideline"/>
+
+    <Button
+        style="@style/Button.Primary"
+        android:id="@+id/maybeButton"
+        android:layout_width="160dp"
+        android:text="@string/general_maybe"
+        app:layout_constraintBottom_toTopOf="@id/notQualifiedButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/notQualifiedButton"
+        style="@style/Button.Secondary"
+        android:layout_width="0dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/vegetation_question_not_qualified"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
