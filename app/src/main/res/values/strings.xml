@@ -12,6 +12,7 @@
     <string name="photo_example_text_2">Slikajte vzporedno s tlemi (ne obračajte kamere navzgor ali navzdol).</string>
     <string name="camera_missing_permission_warning">Dovoljenje za uporabo kamere mora biti vključeno v nastavitvah</string>
     <string name="camera_take_photo">Zajemi sliko</string>
+    <string name="camera_unknown_error">Med zajemanjem slike je prišlo do neznane napake. V nastavitvah aplikacije prosimo preverite vaša dovoljenja za uporabo kamere in lokacije.</string>
     <string name="photo_confirmation_confirm">Potrdi</string>
     <string name="photo_confirmation_retake">Nova slika</string>
     <string name="vegetation_question_not_qualified">Nisem strokovnjak za vegetacijo</string>

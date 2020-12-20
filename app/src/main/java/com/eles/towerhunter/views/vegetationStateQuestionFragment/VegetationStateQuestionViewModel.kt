@@ -14,7 +14,10 @@ class VegetationStateQuestionViewModel(
     private val _didUploadData = SingleLiveEvent<Boolean>()
     val didUploadData: LiveData<Boolean> get() = _didUploadData
 
+    private val photoCapture get() = storage.lastPhotoCapture
+
     fun uploadData(state: VegetationState) {
+        // TODO Do an actual upload here
         _didUploadData.value = true
     }
 

@@ -2,13 +2,20 @@ package com.eles.towerhunter.data
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.net.Uri
+import com.eles.towerhunter.data.models.PhotoCapture
+import com.eles.towerhunter.helpers.gson
 
 private const val SP_NAME = "userConfigPreferences"
 private const val SP_ONBOARDING_COMPLETED = "onboardingCompleted"
 private const val SP_USER_QUALIFIED = "isUserQualified"
-private const val SP_LAST_PHOTO_URI = "lastPhotoUri"
+private const val SP_LAST_PHOTO_CAPTURE = "lastPhotoUri"
 
+/**
+ * A simple storage solution that works exclusively on SharedPreferences at the time of writing this.
+ * Used for storing all kinds of data, from User preferences to Photo paths.
+ * Use this for as long as the app is simple. For a scalable solution, consider implementing
+ * another kind of storage solution.
+ */
 object LocalStorage {
 
     private lateinit var sharedPreferences: SharedPreferences
@@ -35,12 +42,19 @@ object LocalStorage {
     Photos
      */
 
-    var lastPhotoUri: Uri?
-        set(value) = sharedPreferences.edit().putString(SP_LAST_PHOTO_URI, value.toString()).apply()
+    var lastPhotoCapture: PhotoCapture?
+        set(value) {
+            val serializedData = gson.toJson(value)
+            sharedPreferences.edit().putString(SP_LAST_PHOTO_CAPTURE, serializedData).apply()
+        }
         get() {
-            val uriString = sharedPreferences.getString(SP_LAST_PHOTO_URI, null)
-            if (uriString != null) {
-                return Uri.parse(uriString)
+            val serializedData = sharedPreferences.getString(SP_LAST_PHOTO_CAPTURE, null)
+            if (serializedData != null) {
+                return try {
+                    gson.fromJson<PhotoCapture>(serializedData, PhotoCapture::class.java)
+                } catch (e: Exception) {
+                    null
+                }
             }
             return null
         }

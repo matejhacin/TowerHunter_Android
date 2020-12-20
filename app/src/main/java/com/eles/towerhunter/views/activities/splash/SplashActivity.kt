@@ -14,7 +14,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Navigation
+        // Navigate to onboarding or main view
         startActivity(
             when (viewModel.didUserCompleteOnboarding) {
                 true -> Intent(this, MainActivity::class.java)
