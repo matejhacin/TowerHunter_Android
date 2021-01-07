@@ -110,8 +110,7 @@ class CameraViewModel(
                 val location = if (optionalLocation.isPresent) optionalLocation.get() else null
                 val magnetometerSensor = if (optionalMagnetometerSensor.isPresent) optionalMagnetometerSensor.get() else null
                 PhotoCapture(photoUri, location, magnetometerSensor?.sensorValues())
-            }
-        )
+            })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ photoCapture ->

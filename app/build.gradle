@@ -71,4 +71,10 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.20'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'net.sourceforge.streamsupport:streamsupport:1.5.3' // To use Java8 Optional<>
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
+
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
 }
