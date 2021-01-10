@@ -106,9 +106,9 @@ class CameraViewModel(
 
     fun takePhoto(activity: Activity) {
         Observable.zip(
-                getPhotoObservable(activity).doOnNext { Log.d("takePhoto", it.path!!) },
-                getLocationObservable(activity).doOnNext { Log.d("takePhoto", "${it.isPresent}") },
-                getMagnetometerSensorObservable(activity).doOnNext { Log.d("takePhoto", it.toString()) },
+                getPhotoObservable(activity).doOnNext { Log.i("Photo capture", "Photo captured: ${it.path!!}") },
+                getLocationObservable(activity).doOnNext { Log.i("Photo capture", "Photo location is present: ${it.isPresent}") },
+                getMagnetometerSensorObservable(activity).doOnNext { Log.i("Photo capture", "Magnetometer: $it") },
                 Function3<Uri, Optional<Location>, Optional<ReactiveSensorEvent>, PhotoCapture> { photoUri, optionalLocation, optionalMagnetometerSensor ->
                     val location = if (optionalLocation.isPresent) optionalLocation.get() else null
                     val magnetometerSensor = if (optionalMagnetometerSensor.isPresent) optionalMagnetometerSensor.get() else null
@@ -172,23 +172,6 @@ class CameraViewModel(
 
     private fun getLocationObservable(context: Context): Observable<Optional<Location>> {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            return Observable.create { emitter ->
-//                val locationClient = LocationServices.getFusedLocationProviderClient(context)
-//                locationClient.requestLocationUpdates(
-//                        LocationRequest()
-//                                .setNumUpdates(1)
-//                                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY),
-//                        object : LocationCallback() {
-//                            override fun onLocationAvailability(p0: LocationAvailability?) {
-//                                 super.onLocationAvailability(p0)
-//                            }
-//                            override fun onLocationResult(p0: LocationResult?) {
-//                                super.onLocationResult(p0)
-//                            }
-//                        },
-//                        Looper.getMainLooper()
-//                )
-//            }
             return ReactiveLocationProvider(context)
                     .getUpdatedLocation(LocationRequest.create()
                             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
