@@ -5,6 +5,8 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
+import com.androidnetworking.interfaces.OkHttpResponseListener
+import com.eles.towerhunter.data.VegetationState
 import com.eles.towerhunter.data.dto.ImageMetaDataDTO
 import com.eles.towerhunter.data.dto.ImageUrlDTO
 import com.eles.towerhunter.data.models.PhotoCapture
@@ -18,66 +20,46 @@ import java.io.File
 
 class ImageUploadClient {
 
-    fun createImage(image: PhotoCapture, onSuccess: (() -> Unit)) {
+    fun createImage(image: PhotoCapture, vegetationState: VegetationState, onComplete: ((Boolean) -> Unit)) {
         val dto = ImageMetaDataDTO(
-            image.geoLocation?.latitude!!,
-            image.geoLocation.longitude,
-            image.magnetometer?.x!!,
-            image.magnetometer.y,
-            image.magnetometer.z
+                image.geoLocation?.latitude!!,
+                image.geoLocation.longitude,
+                image.magnetometer?.x!!,
+                image.magnetometer.y,
+                image.magnetometer.z,
+                vegetationState
         )
 
         RestClient.api.createImage(dto).enqueue(object : Callback<ImageUrlDTO> {
             override fun onResponse(call: Call<ImageUrlDTO>, response: Response<ImageUrlDTO>) {
                 when (response.isSuccessful) {
-//                    true -> uploadImage(response.body()!!.url, image)
-                    true -> onSuccess()
-                    false -> TODO("Handle network error here")
+                    true -> uploadImage(response.body()!!.url, image, onComplete)
+                    false -> onComplete(false)
                 }
             }
 
             override fun onFailure(call: Call<ImageUrlDTO>, t: Throwable) {
-                TODO("Handle network error here")
+                onComplete(false)
             }
         })
     }
 
-//    private fun uploadImage(uploadUrl: String, image: PhotoCapture) {
-//        val file = File(image.uri?.path!!)
-//        AndroidNetworking.post(uploadUrl)
-//            .addFileBody(file)
-//            .setPriority(Priority.HIGH)
-//            .addHeaders("Content-Type", "image/jpeg")
-//            .build()
-//            .getAsOkHttpResponse(object : OkHttpResponseListener {
-//                override fun onResponse(response: okhttp3.Response?) {
-//                    TODO("Not yet implemented")
-//                }
-//
-//                override fun onError(anError: ANError?) {
-//                    TODO("Not yet implemented")
-//                }
-//            })
-//    }
-
-    private fun uploadImage(uploadUrl: String, image: PhotoCapture) {
+    private fun uploadImage(uploadUrl: String, image: PhotoCapture, onComplete: ((Boolean) -> Unit)) {
         val file = File(image.uri?.path!!)
-        AndroidNetworking.upload(uploadUrl)
-            .addMultipartFile("image", file)
-            .setPriority(Priority.HIGH)
-            .build()
-            .setUploadProgressListener { bytesUploaded, totalBytes ->
-                Log.d("Image upload" , "$bytesUploaded/$totalBytes")
-            }
-            .getAsJSONObject(object : JSONObjectRequestListener {
-                override fun onResponse(response: JSONObject) {
-                    print("break")
-                }
+        AndroidNetworking.put(uploadUrl)
+                .addFileBody(file)
+                .setPriority(Priority.HIGH)
+                .setContentType("image/jpeg")
+                .build()
+                .getAsOkHttpResponse(object : OkHttpResponseListener {
+                    override fun onResponse(response: okhttp3.Response?) {
+                        onComplete(response?.isSuccessful == true)
+                    }
 
-                override fun onError(error: ANError) {
-                    print("break")
-                }
-            })
+                    override fun onError(anError: ANError?) {
+                        onComplete(false)
+                    }
+                })
     }
 
 }

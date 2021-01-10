@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.FragmentMainMenuBinding
+import com.eles.towerhunter.helpers.extensions.requireAppCompatActivity
 import com.eles.towerhunter.views.activities.MainActivity
 
 class MainMenuFragment : Fragment() {
@@ -34,9 +35,9 @@ class MainMenuFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val activity = requireActivity() as MainActivity
-        activity.supportActionBar?.show()
-        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requireAppCompatActivity().supportActionBar?.show()
+        requireAppCompatActivity().supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        requireAppCompatActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
     private fun initUi() {

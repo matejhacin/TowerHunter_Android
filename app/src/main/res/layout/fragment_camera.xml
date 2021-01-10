@@ -8,7 +8,7 @@
 
     <Button
         style="@style/Button.Primary"
-        android:id="@+id/camera_capture_button"
+        android:id="@+id/captureButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="fitCenter"

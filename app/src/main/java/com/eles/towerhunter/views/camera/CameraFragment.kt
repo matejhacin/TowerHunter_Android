@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.FragmentCameraBinding
+import com.eles.towerhunter.helpers.extensions.requireAppCompatActivity
 import com.eles.towerhunter.views.activities.MainActivity
 
 class CameraFragment : Fragment() {
@@ -35,16 +37,15 @@ class CameraFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initClickListener()
+        initCaptureClickListener()
         initData()
         viewModel.initCameraWithPermissionCheck(this, views.viewFinder.surfaceProvider)
     }
 
     override fun onResume() {
         super.onResume()
-        val activity = requireActivity() as MainActivity
-        activity.supportActionBar?.hide()
-        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
+        requireAppCompatActivity().supportActionBar?.hide()
+        requireAppCompatActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
     }
 
     /*
@@ -76,8 +77,8 @@ class CameraFragment : Fragment() {
     UI
      */
 
-    private fun initClickListener() {
-        views.cameraCaptureButton.setOnClickListener {
+    private fun initCaptureClickListener() {
+        views.captureButton.setOnClickListener {
             viewModel.takePhoto(requireActivity())
         }
     }

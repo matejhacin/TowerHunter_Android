@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.data.VegetationState
 import com.eles.towerhunter.databinding.FragmentVegetationStateQuestionBinding
+import com.eles.towerhunter.helpers.extensions.requireAppCompatActivity
 import com.eles.towerhunter.views.activities.MainActivity
 import kotlinx.android.synthetic.main.fragment_vegetation_state_question.*
 
@@ -38,27 +39,26 @@ class VegetationStateQuestionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val activity = requireActivity() as MainActivity
-        activity.supportActionBar?.show()
-        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requireAppCompatActivity().supportActionBar?.show()
+        requireAppCompatActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
     private fun initUi() {
         views.notQualifiedButton.setOnClickListener {
             showLoadingState()
-            viewModel.uploadData(VegetationState.UNKNOWN)
+            viewModel.uploadData(VegetationState.unknown)
         }
         views.maybeButton.setOnClickListener {
             showLoadingState()
-            viewModel.uploadData(VegetationState.MAINTENANCE_MAYBE_NEEDED)
+            viewModel.uploadData(VegetationState.maintenanceMaybeNeeded)
         }
         views.yesButton.setOnClickListener {
             showLoadingState()
-            viewModel.uploadData(VegetationState.MAINTENANCE_NEEDED)
+            viewModel.uploadData(VegetationState.maintenanceNeeded)
         }
         views.noButton.setOnClickListener {
             showLoadingState()
-            viewModel.uploadData(VegetationState.MAINTENANCE_NOT_NEEDED)
+            viewModel.uploadData(VegetationState.maintenanceNotNeeded)
         }
     }
 

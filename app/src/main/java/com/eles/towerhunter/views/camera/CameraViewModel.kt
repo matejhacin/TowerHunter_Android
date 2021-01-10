@@ -7,6 +7,8 @@ import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.location.Location
 import android.net.Uri
+import android.os.Looper
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
@@ -24,7 +26,7 @@ import com.eles.towerhunter.data.models.PhotoCapture
 import com.eles.towerhunter.helpers.SingleLiveEvent
 import com.github.pwittchen.reactivesensors.library.ReactiveSensorEvent
 import com.github.pwittchen.reactivesensors.library.ReactiveSensors
-import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -40,7 +42,7 @@ private const val FOLDER_NAME = "TowerHunter"
 private const val FILE_NAME = "photo_%s.jpg"
 
 class CameraViewModel(
-    private val storage: LocalStorage = LocalStorage
+        private val storage: LocalStorage = LocalStorage
 ) : ViewModel() {
 
     /*
@@ -94,31 +96,32 @@ class CameraViewModel(
             try {
                 cameraProvider.unbindAll()
                 cameraProvider.bindToLifecycle(
-                    fragment, CameraSelector.DEFAULT_BACK_CAMERA, preview, imageCapture)
+                        fragment, CameraSelector.DEFAULT_BACK_CAMERA, preview, imageCapture)
 
-            } catch(exc: Exception) {}
+            } catch (exc: Exception) {
+            }
 
         }, ContextCompat.getMainExecutor(context))
     }
 
     fun takePhoto(activity: Activity) {
         Observable.zip(
-            getPhotoObservable(activity),
-            getLocationObservable(activity),
-            getMagnetometerSensorObservable(activity),
-            Function3<Uri, Optional<Location>, Optional<ReactiveSensorEvent>, PhotoCapture> { photoUri, optionalLocation, optionalMagnetometerSensor ->
-                val location = if (optionalLocation.isPresent) optionalLocation.get() else null
-                val magnetometerSensor = if (optionalMagnetometerSensor.isPresent) optionalMagnetometerSensor.get() else null
-                PhotoCapture(photoUri, location, magnetometerSensor?.sensorValues())
-            })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ photoCapture ->
-                savePhotoCapture(photoCapture)
-                _photoCaptured.value = photoCapture
-            }, { exception ->
-                _photoCaptureError.value = exception
-            }).let { disposable = it }
+                getPhotoObservable(activity).doOnNext { Log.d("takePhoto", it.path!!) },
+                getLocationObservable(activity).doOnNext { Log.d("takePhoto", "${it.isPresent}") },
+                getMagnetometerSensorObservable(activity).doOnNext { Log.d("takePhoto", it.toString()) },
+                Function3<Uri, Optional<Location>, Optional<ReactiveSensorEvent>, PhotoCapture> { photoUri, optionalLocation, optionalMagnetometerSensor ->
+                    val location = if (optionalLocation.isPresent) optionalLocation.get() else null
+                    val magnetometerSensor = if (optionalMagnetometerSensor.isPresent) optionalMagnetometerSensor.get() else null
+                    PhotoCapture(photoUri, location, magnetometerSensor?.sensorValues())
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ photoCapture ->
+                    savePhotoCapture(photoCapture)
+                    _photoCaptured.value = photoCapture
+                }, { exception ->
+                    _photoCaptureError.value = exception
+                }).let { disposable = it }
     }
 
     /*
@@ -136,8 +139,8 @@ class CameraViewModel(
     }
 
     private fun checkCameraPermission(context: Context) = ContextCompat.checkSelfPermission(
-        context,
-        PERMISSION_CAMERA
+            context,
+            PERMISSION_CAMERA
     ) == PackageManager.PERMISSION_GRANTED
 
     private fun requestCameraPermission() {
@@ -153,27 +156,44 @@ class CameraViewModel(
             val photoFile = preparePhotoFile(activity)
             val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
             imageCapture.takePicture(
-                outputOptions, ContextCompat.getMainExecutor(activity.applicationContext), object : ImageCapture.OnImageSavedCallback {
-                    override fun onError(exc: ImageCaptureException) {
-                        emitter.onError(exc)
-                    }
+                    outputOptions, ContextCompat.getMainExecutor(activity.applicationContext), object : ImageCapture.OnImageSavedCallback {
+                override fun onError(exc: ImageCaptureException) {
+                    emitter.onError(exc)
+                }
 
-                    override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                        val photoUri = Uri.fromFile(photoFile)
-                        emitter.onNext(photoUri)
-                        emitter.onComplete()
-                    }
-                })
+                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                    val photoUri = Uri.fromFile(photoFile)
+                    emitter.onNext(photoUri)
+                    emitter.onComplete()
+                }
+            })
         }
     }
 
     private fun getLocationObservable(context: Context): Observable<Optional<Location>> {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//            return Observable.create { emitter ->
+//                val locationClient = LocationServices.getFusedLocationProviderClient(context)
+//                locationClient.requestLocationUpdates(
+//                        LocationRequest()
+//                                .setNumUpdates(1)
+//                                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY),
+//                        object : LocationCallback() {
+//                            override fun onLocationAvailability(p0: LocationAvailability?) {
+//                                 super.onLocationAvailability(p0)
+//                            }
+//                            override fun onLocationResult(p0: LocationResult?) {
+//                                super.onLocationResult(p0)
+//                            }
+//                        },
+//                        Looper.getMainLooper()
+//                )
+//            }
             return ReactiveLocationProvider(context)
-                .getUpdatedLocation(LocationRequest.create()
-                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                    .setNumUpdates(1))
-                .map { location -> Optional.of(location) }
+                    .getUpdatedLocation(LocationRequest.create()
+                            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                            .setNumUpdates(1))
+                    .map { location -> Optional.of(location) }
         }
         return Observable.just(Optional.empty())
     }
@@ -182,10 +202,11 @@ class CameraViewModel(
         val sensors = ReactiveSensors(context)
         if (sensors.hasSensor(Sensor.TYPE_MAGNETIC_FIELD)) {
             return sensors
-                .observeSensor(Sensor.TYPE_MAGNETIC_FIELD)
-                .filter(ReactiveSensorEvent::sensorChanged)
-                .map { sensorEvent -> Optional.of(sensorEvent) }
-                .toObservable()
+                    .observeSensor(Sensor.TYPE_MAGNETIC_FIELD)
+                    .filter(ReactiveSensorEvent::sensorChanged)
+                    .map { sensorEvent -> Optional.of(sensorEvent) }
+                    .limit(1)
+                    .toObservable()
         }
         return Observable.just(Optional.empty())
     }

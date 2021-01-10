@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.FragmentPhotoUploadSuccessBinding
+import com.eles.towerhunter.helpers.extensions.requireAppCompatActivity
+import com.eles.towerhunter.views.activities.MainActivity
 
 class PhotoUploadSuccessFragment : Fragment() {
 
@@ -27,6 +29,11 @@ class PhotoUploadSuccessFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireAppCompatActivity().supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun initUi() {

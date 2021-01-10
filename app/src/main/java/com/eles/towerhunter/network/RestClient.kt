@@ -21,7 +21,7 @@ object RestClient {
             .build()
 
     val retrofit = Retrofit.Builder()
-        .baseUrl(Constants.Network.BASE_URL_STAGING)
+        .baseUrl(Constants.Network.BASE_URL_PRODUCTION)
         .client(client)
         .addConverterFactory(GsonConverterFactory.create(Gson()))
         .build()

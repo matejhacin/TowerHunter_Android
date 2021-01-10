@@ -24,8 +24,8 @@ class VegetationStateQuestionViewModel(
             return
         }
 
-        uploadClient.createImage(photoCapture!!) {
-            _didUploadData.value = true
+        uploadClient.createImage(photoCapture!!, state) { success ->
+            _didUploadData.value = success
         }
     }
 
