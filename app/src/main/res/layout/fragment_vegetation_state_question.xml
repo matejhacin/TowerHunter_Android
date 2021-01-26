@@ -36,7 +36,8 @@
         android:text="@string/general_yes"
         app:layout_constraintBottom_toTopOf="@id/maybeButton"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/verticalGuideline"/>
+        app:layout_constraintRight_toLeftOf="@id/verticalGuideline"
+        android:layout_marginBottom="16dp"/>
 
     <Button
         style="@style/Button.Primary"
@@ -45,7 +46,9 @@
         android:text="@string/general_no"
         app:layout_constraintBottom_toTopOf="@id/maybeButton"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/verticalGuideline"/>
+        app:layout_constraintLeft_toRightOf="@id/verticalGuideline"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"/>
 
     <Button
         style="@style/Button.Primary"
@@ -54,7 +57,8 @@
         android:text="@string/general_maybe"
         app:layout_constraintBottom_toTopOf="@id/notQualifiedButton"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/notQualifiedButton"

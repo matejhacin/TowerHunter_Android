@@ -36,8 +36,13 @@ class MainMenuFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         requireAppCompatActivity().supportActionBar?.show()
-        requireAppCompatActivity().supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        requireAppCompatActivity().supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)
         requireAppCompatActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireAppCompatActivity().supportActionBar?.setHomeAsUpIndicator(null)
     }
 
     private fun initUi() {
