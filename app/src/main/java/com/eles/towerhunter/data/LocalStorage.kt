@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.eles.towerhunter.data.models.PhotoCapture
 import com.eles.towerhunter.helpers.gson
+import com.google.gson.reflect.TypeToken
 
 private const val SP_NAME = "userConfigPreferences"
 private const val SP_ONBOARDING_COMPLETED = "onboardingCompleted"
 private const val SP_USER_QUALIFIED = "isUserQualified"
 private const val SP_LAST_PHOTO_CAPTURE = "lastPhotoUri"
+private const val SP_FAILED_UPLOADS_LIST = "failedUploads"
 
 /**
  * A simple storage solution that works exclusively on SharedPreferences at the time of writing this.
@@ -58,5 +60,31 @@ object LocalStorage {
             }
             return null
         }
+
+    var failedUploads: List<PhotoCapture>
+        set(value) {
+            val serializedData = gson.toJson(value)
+            sharedPreferences.edit().putString(SP_FAILED_UPLOADS_LIST, serializedData).apply()
+        }
+        get() {
+            val serializedData = sharedPreferences.getString(SP_FAILED_UPLOADS_LIST, null)
+            if (serializedData != null) {
+                return try {
+                    gson.fromJson<List<PhotoCapture>>(
+                        serializedData,
+                        object : TypeToken<List<PhotoCapture>>() {}.type
+                    )
+                } catch (e: Exception) {
+                    listOf()
+                }
+            }
+            return listOf()
+        }
+
+    fun addFailedUpload(photoCapture: PhotoCapture) {
+        val updatedList = failedUploads.toMutableList()
+        updatedList.add(photoCapture)
+        failedUploads = updatedList
+    }
 
 }

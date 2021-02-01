@@ -30,14 +30,28 @@
         android:text="@string/main_menu_title"
         android:gravity="center"/>
 
-    <Button
-        style="@style/Button.Primary"
-        android:id="@+id/newPhotoButton"
+    <LinearLayout
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleTextView"
-        android:layout_marginTop="64dp"
-        android:text="@string/main_menu_button_new_photo"/>
+        android:layout_marginTop="64dp">
+
+        <Button
+            style="@style/Button.Primary"
+            android:id="@+id/newPhotoButton"
+            android:layout_width="match_parent"
+            android:text="@string/main_menu_button_new_photo"/>
+
+        <Button
+            style="@style/Button.Primary"
+            android:id="@+id/uploadFailsButton"
+            android:layout_width="match_parent"
+            android:text="@string/main_menu_button_upload_failed_photos"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,4 +15,8 @@ class ConfirmPhotoViewModel(
     val photoUri: Uri?
         get() = photoCapture?.uri
 
+    fun retakePhotoClicked() {
+        photoCapture?.cleanUp()
+    }
+
 }

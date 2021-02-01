@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_photoExampleFragment"
             app:destination="@id/photoExampleFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_retryFailedUploadsFragment"
+            app:destination="@id/retryFailedUploadsFragment" />
     </fragment>
     <fragment
         android:id="@+id/photoExampleFragment"
@@ -46,18 +49,26 @@
         android:label="fragment_vegetation_state_question"
         tools:layout="@layout/fragment_vegetation_state_question" >
         <action
-            android:id="@+id/action_vegetationStateQuestionFragment_to_photoUploadSuccessFragment"
+            android:id="@+id/action_vegetationStateQuestionFragment_to_photoUploadResultFragment"
             app:destination="@id/photoUploadSuccessFragment" />
     </fragment>
     <fragment
         android:id="@+id/photoUploadSuccessFragment"
-        android:name="com.eles.towerhunter.views.photoUploadSuccess.PhotoUploadSuccessFragment"
+        android:name="com.eles.towerhunter.views.photoUploadSuccess.PhotoUploadResultFragment"
         android:label="fragment_photo_upload_success"
-        tools:layout="@layout/fragment_photo_upload_success" >
+        tools:layout="@layout/fragment_photo_upload_result" >
         <action
             android:id="@+id/action_photoUploadSuccessFragment_to_cameraFragment"
             app:destination="@id/cameraFragment"
             app:popUpTo="@id/cameraFragment"
             app:popUpToInclusive="true"/>
+        <argument
+            android:name="uploadSuccess"
+            app:argType="boolean" />
     </fragment>
+    <fragment
+        android:id="@+id/retryFailedUploadsFragment"
+        android:name="com.eles.towerhunter.views.retryFailedUploads.RetryFailedUploadsFragment"
+        android:label="retry_failed_uploads_fragment"
+        tools:layout="@layout/retry_failed_uploads_fragment" />
 </navigation>

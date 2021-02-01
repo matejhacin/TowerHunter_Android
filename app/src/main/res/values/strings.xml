@@ -17,10 +17,15 @@
     <string name="photo_confirmation_retake">Nova slika</string>
     <string name="vegetation_question_not_qualified">Nisem strokovnjak za ocenjevanje</string>
     <string name="vegetation_question_title">Ali je potrebno vegetacijo urediti?</string>
-    <string name="photo_upload_success_new_photo">Zajemi novo fotografijo</string>
-    <string name="photo_upload_success_message">Fotografija je bila poslana!\n\nHvala!</string>
+    <string name="photo_upload_result_new_photo">Zajemi novo fotografijo</string>
+    <string name="photo_upload_result_success">Fotografija je bila poslana!\n\nHvala!</string>
+    <string name="photo_upload_result_fail">Med nalaganjem fotografije je prišlo do napake.\n\nV glavnem meniju je gumb za ponovni poskus, ko bo boljša internetna povezava (spremeni ta text).</string>
     <string name="location_permission_message">Aplikacija potrebuje dostop do vaše lokacije.</string>
     <string name="location_permission_warning">Dovoljenje za lokacijo mora biti vključeno v nastavitvah</string>
     <string name="main_menu_title">Dobrodošli v aplikaciji\nTower Hunter!</string>
     <string name="main_menu_button_new_photo">Zajami novo fotografijo</string>
+    <string name="main_menu_button_upload_failed_photos">Naloži neuspele prenose</string>
+    <string name="retry_failed_uploads_progress">Nalagam neuspele prenose</string>
+    <string name="retry_failed_uploads_button_done">Nazaj</string>
+    <string name="retry_failed_uploads_error">Pri nalaganju je prišlo do težave, poskusite kasneje</string>
 </resources>

@@ -14,7 +14,6 @@ import com.eles.towerhunter.R
 import com.eles.towerhunter.data.VegetationState
 import com.eles.towerhunter.databinding.FragmentVegetationStateQuestionBinding
 import com.eles.towerhunter.helpers.extensions.requireAppCompatActivity
-import com.eles.towerhunter.views.activities.MainActivity
 import kotlinx.android.synthetic.main.fragment_vegetation_state_question.*
 
 class VegetationStateQuestionFragment : Fragment() {
@@ -64,16 +63,13 @@ class VegetationStateQuestionFragment : Fragment() {
 
     private fun initData() {
         viewModel.didUploadData.observe(viewLifecycleOwner, Observer<Boolean> { didUpload ->
-            if (didUpload) {
-                navigateToUploadSuccessView()
-            } else {
-                Toast.makeText(requireContext(), "Error, please restart and try again", Toast.LENGTH_LONG).show()
-            }
+            navigateToUploadResultView(didUpload)
         })
     }
 
-    private fun navigateToUploadSuccessView() {
-        requireView().findNavController().navigate(R.id.action_vegetationStateQuestionFragment_to_photoUploadSuccessFragment)
+    private fun navigateToUploadResultView(uploadSuccess: Boolean) {
+        val action = VegetationStateQuestionFragmentDirections.actionVegetationStateQuestionFragmentToPhotoUploadResultFragment(uploadSuccess)
+        requireView().findNavController().navigate(action)
     }
 
     private fun showLoadingState() {

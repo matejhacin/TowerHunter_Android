@@ -1,7 +1,6 @@
 package com.eles.towerhunter.views.mainMenu
 
 import android.content.pm.ActivityInfo
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import androidx.navigation.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.FragmentMainMenuBinding
 import com.eles.towerhunter.helpers.extensions.requireAppCompatActivity
-import com.eles.towerhunter.views.activities.MainActivity
 
 class MainMenuFragment : Fragment() {
 
@@ -36,7 +34,7 @@ class MainMenuFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         requireAppCompatActivity().supportActionBar?.show()
-        requireAppCompatActivity().supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)
+        requireAppCompatActivity().supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
         requireAppCompatActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
@@ -46,11 +44,17 @@ class MainMenuFragment : Fragment() {
     }
 
     private fun initUi() {
+        views.uploadFailsButton.visibility = if (viewModel.hasPendingUploads) View.VISIBLE else View.GONE
         views.newPhotoButton.setOnClickListener { navigateToNewPhotoView() }
+        views.uploadFailsButton.setOnClickListener { navigateToRetryFailedUploadsView() }
     }
 
     private fun navigateToNewPhotoView() {
         requireView().findNavController().navigate(R.id.action_mainMenuFragment_to_photoExampleFragment)
+    }
+
+    private fun navigateToRetryFailedUploadsView() {
+        requireView().findNavController().navigate(R.id.action_mainMenuFragment_to_retryFailedUploadsFragment)
     }
 
 }

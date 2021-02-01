@@ -36,7 +36,10 @@ class ConfirmPhotoFragment : Fragment() {
     private fun initUi() {
         views.imageView.setImageURI(viewModel.photoUri)
         views.confirmButton.setOnClickListener { requireView().findNavController().navigate(R.id.action_confirmPhotoFragment_to_vegetationStateQuestionFragment) }
-        views.retakeButton.setOnClickListener { requireActivity().onBackPressed() }
+        views.retakeButton.setOnClickListener {
+            viewModel.retakePhotoClicked()
+            requireActivity().onBackPressed()
+        }
     }
 
 }

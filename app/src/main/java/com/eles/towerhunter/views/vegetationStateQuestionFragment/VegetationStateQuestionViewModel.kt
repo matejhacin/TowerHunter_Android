@@ -6,7 +6,6 @@ import com.eles.towerhunter.data.LocalStorage
 import com.eles.towerhunter.data.VegetationState
 import com.eles.towerhunter.helpers.SingleLiveEvent
 import com.eles.towerhunter.network.clients.ImageUploadClient
-import kotlinx.coroutines.delay
 
 class VegetationStateQuestionViewModel(
     private val storage: LocalStorage = LocalStorage,
@@ -16,7 +15,7 @@ class VegetationStateQuestionViewModel(
     private val _didUploadData = SingleLiveEvent<Boolean>()
     val didUploadData: LiveData<Boolean> get() = _didUploadData
 
-    private val photoCapture get() = storage.lastPhotoCapture
+    private val photoCapture = storage.lastPhotoCapture
 
     fun uploadData(state: VegetationState) {
         if (photoCapture == null) {
@@ -24,9 +23,24 @@ class VegetationStateQuestionViewModel(
             return
         }
 
-        uploadClient.createImage(photoCapture!!, state) { success ->
+        photoCapture.vegetationState = state.toString()
+
+        uploadClient.createImage(photoCapture) { success ->
+            if (success) {
+                deleteLocalFile()
+            } else {
+                addPhotoCaptureToFailedUploads()
+            }
             _didUploadData.value = success
         }
+    }
+
+    private fun deleteLocalFile() {
+        photoCapture?.cleanUp()
+    }
+
+    private fun addPhotoCaptureToFailedUploads() {
+        storage.addFailedUpload(photoCapture!!)
     }
 
 }

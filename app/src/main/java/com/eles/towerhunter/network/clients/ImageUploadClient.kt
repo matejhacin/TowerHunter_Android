@@ -20,14 +20,14 @@ import java.io.File
 
 class ImageUploadClient {
 
-    fun createImage(image: PhotoCapture, vegetationState: VegetationState, onComplete: ((Boolean) -> Unit)) {
+    fun createImage(image: PhotoCapture, onComplete: ((Boolean) -> Unit)) {
         val dto = ImageMetaDataDTO(
                 image.geoLocation?.latitude!!,
                 image.geoLocation.longitude,
                 image.magnetometer?.x!!,
                 image.magnetometer.y,
                 image.magnetometer.z,
-                vegetationState
+                image.vegetationState!!
         )
 
         RestClient.api.createImage(dto).enqueue(object : Callback<ImageUrlDTO> {
