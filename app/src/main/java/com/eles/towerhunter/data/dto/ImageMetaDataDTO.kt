@@ -9,5 +9,5 @@ data class ImageMetaDataDTO(
     @SerializedName("x") val x: Float,
     @SerializedName("y") val y: Float,
     @SerializedName("z") val z: Float,
-    @SerializedName("vegetation_state") val vegetationState: String
+    @SerializedName("vegetation_state") val vegetationState: String?
 )

@@ -12,6 +12,8 @@ class ConfirmPhotoViewModel(
     private val photoCapture: PhotoCapture?
         get() = storage.lastPhotoCapture
 
+    val isUserQualifiedToAssessState = storage.isUserQualified
+
     val photoUri: Uri?
         get() = photoCapture?.uri
 

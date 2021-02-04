@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_confirmPhotoFragment_to_vegetationStateQuestionFragment"
             app:destination="@id/vegetationStateQuestionFragment" />
+        <action
+            android:id="@+id/action_confirmPhotoFragment_to_photoUploadFragment"
+            app:destination="@id/photoUploadFragment" />
     </fragment>
     <fragment
         android:id="@+id/vegetationStateQuestionFragment"
@@ -49,11 +52,11 @@
         android:label="fragment_vegetation_state_question"
         tools:layout="@layout/fragment_vegetation_state_question" >
         <action
-            android:id="@+id/action_vegetationStateQuestionFragment_to_photoUploadResultFragment"
-            app:destination="@id/photoUploadSuccessFragment" />
+            android:id="@+id/action_vegetationStateQuestionFragment_to_photoUploadFragment"
+            app:destination="@id/photoUploadFragment" />
     </fragment>
     <fragment
-        android:id="@+id/photoUploadSuccessFragment"
+        android:id="@+id/photoUploadResultFragment"
         android:name="com.eles.towerhunter.views.photoUploadSuccess.PhotoUploadResultFragment"
         android:label="fragment_photo_upload_success"
         tools:layout="@layout/fragment_photo_upload_result" >
@@ -71,4 +74,13 @@
         android:name="com.eles.towerhunter.views.retryFailedUploads.RetryFailedUploadsFragment"
         android:label="retry_failed_uploads_fragment"
         tools:layout="@layout/retry_failed_uploads_fragment" />
+    <fragment
+        android:id="@+id/photoUploadFragment"
+        android:name="com.eles.towerhunter.views.photoUploadProgress.PhotoUploadFragment"
+        android:label="photo_upload_fragment"
+        tools:layout="@layout/photo_upload_fragment" >
+        <action
+            android:id="@+id/action_photoUploadFragment_to_photoUploadResultFragment"
+            app:destination="@id/photoUploadResultFragment" />
+    </fragment>
 </navigation>

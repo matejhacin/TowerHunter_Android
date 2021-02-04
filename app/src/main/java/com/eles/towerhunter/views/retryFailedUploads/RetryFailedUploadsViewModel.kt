@@ -43,14 +43,15 @@ class RetryFailedUploadsViewModel(
                     uploadNext()
                 } else {
                     _error.value = true
+                    updateStorage()
                 }
             }
         } else {
-            finishUploading()
+            updateStorage()
         }
     }
 
-    private fun finishUploading() {
+    private fun updateStorage() {
         storage.failedUploads = failedUploads
     }
 

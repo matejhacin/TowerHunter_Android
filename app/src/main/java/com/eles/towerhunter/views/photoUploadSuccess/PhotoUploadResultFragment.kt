@@ -33,11 +33,6 @@ class PhotoUploadResultFragment : Fragment() {
         initUi()
     }
 
-    override fun onResume() {
-        super.onResume()
-        requireAppCompatActivity().supportActionBar?.setDisplayHomeAsUpEnabled(false)
-    }
-
     private fun initUi() {
         views.newPhotoButton.setOnClickListener { navigateToCameraView() }
 

@@ -35,10 +35,18 @@ class ConfirmPhotoFragment : Fragment() {
 
     private fun initUi() {
         views.imageView.setImageURI(viewModel.photoUri)
-        views.confirmButton.setOnClickListener { requireView().findNavController().navigate(R.id.action_confirmPhotoFragment_to_vegetationStateQuestionFragment) }
+        views.confirmButton.setOnClickListener { navigateForward() }
         views.retakeButton.setOnClickListener {
             viewModel.retakePhotoClicked()
             requireActivity().onBackPressed()
+        }
+    }
+
+    private fun navigateForward() {
+        if (viewModel.isUserQualifiedToAssessState) {
+            requireView().findNavController().navigate(R.id.action_confirmPhotoFragment_to_vegetationStateQuestionFragment)
+        } else {
+            requireView().findNavController().navigate(R.id.action_confirmPhotoFragment_to_photoUploadFragment)
         }
     }
 

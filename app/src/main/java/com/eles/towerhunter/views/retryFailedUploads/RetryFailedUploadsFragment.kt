@@ -9,7 +9,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.RetryFailedUploadsFragmentBinding
-import kotlinx.android.synthetic.main.retry_failed_uploads_fragment.*
 
 class RetryFailedUploadsFragment : Fragment() {
 
@@ -30,8 +29,8 @@ class RetryFailedUploadsFragment : Fragment() {
     }
 
     private fun initUi() {
-        finishButton.isVisible = false
-        finishButton.setOnClickListener { requireActivity().onBackPressed() }
+        views.finishButton.isVisible = false
+        views.finishButton.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     private fun initData() {
@@ -49,14 +48,15 @@ class RetryFailedUploadsFragment : Fragment() {
         views.textView.text = "${getString(R.string.retry_failed_uploads_progress)}\n$uploadedCount/$totalCount"
 
         if (uploadedCount == totalCount) {
-            progressBar.isVisible = false
-            finishButton.isVisible = true
+            views.progressBar.isVisible = false
+            views.finishButton.isVisible = true
         }
     }
 
     private fun showError() {
         views.textView.text = getString(R.string.retry_failed_uploads_error)
-        finishButton.isVisible = true
+        views.finishButton.isVisible = true
+        views.progressBar.isVisible = false
     }
 
 }

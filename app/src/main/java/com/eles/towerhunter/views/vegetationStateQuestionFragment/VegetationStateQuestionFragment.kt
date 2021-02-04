@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
@@ -33,7 +32,6 @@ class VegetationStateQuestionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
-        initData()
     }
 
     override fun onResume() {
@@ -44,40 +42,26 @@ class VegetationStateQuestionFragment : Fragment() {
 
     private fun initUi() {
         views.notQualifiedButton.setOnClickListener {
-            showLoadingState()
-            viewModel.uploadData(VegetationState.unknown)
+            stateSelected(VegetationState.unknown)
         }
         views.maybeButton.setOnClickListener {
-            showLoadingState()
-            viewModel.uploadData(VegetationState.maintenanceMaybeNeeded)
+            stateSelected(VegetationState.maintenanceMaybeNeeded)
         }
         views.yesButton.setOnClickListener {
-            showLoadingState()
-            viewModel.uploadData(VegetationState.maintenanceNeeded)
+            stateSelected(VegetationState.maintenanceNeeded)
         }
         views.noButton.setOnClickListener {
-            showLoadingState()
-            viewModel.uploadData(VegetationState.maintenanceNotNeeded)
+            stateSelected(VegetationState.maintenanceNotNeeded)
         }
     }
 
-    private fun initData() {
-        viewModel.didUploadData.observe(viewLifecycleOwner, Observer<Boolean> { didUpload ->
-            navigateToUploadResultView(didUpload)
-        })
+    private fun stateSelected(state: VegetationState) {
+        viewModel.saveState(state)
+        navigateToPhotoUpload()
     }
 
-    private fun navigateToUploadResultView(uploadSuccess: Boolean) {
-        val action = VegetationStateQuestionFragmentDirections.actionVegetationStateQuestionFragmentToPhotoUploadResultFragment(uploadSuccess)
-        requireView().findNavController().navigate(action)
-    }
-
-    private fun showLoadingState() {
-        views.notQualifiedButton.visibility = View.INVISIBLE
-        views.maybeButton.visibility = View.INVISIBLE
-        views.yesButton.visibility = View.INVISIBLE
-        views.noButton.visibility = View.INVISIBLE
-        progressBar.visibility = View.VISIBLE
+    private fun navigateToPhotoUpload() {
+        requireView().findNavController().navigate(R.id.action_vegetationStateQuestionFragment_to_photoUploadFragment)
     }
 
 }

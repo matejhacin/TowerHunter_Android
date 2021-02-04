@@ -54,9 +54,8 @@ class LocationPermissionFragment : Fragment() {
 
     private fun navigateToMainView() {
         viewModel.markOnboardingCompleted()
-        startActivity(
-            Intent(requireContext(), MainActivity::class.java)
-        ).also { requireActivity().finish() }
+        startActivity(Intent(requireContext(), MainActivity::class.java))
+        requireActivity().finish()
     }
 
 }

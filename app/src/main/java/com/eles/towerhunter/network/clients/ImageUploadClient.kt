@@ -27,7 +27,7 @@ class ImageUploadClient {
                 image.magnetometer?.x!!,
                 image.magnetometer.y,
                 image.magnetometer.z,
-                image.vegetationState!!
+                image.vegetationState ?: VegetationState.unknown.toString()
         )
 
         RestClient.api.createImage(dto).enqueue(object : Callback<ImageUrlDTO> {
