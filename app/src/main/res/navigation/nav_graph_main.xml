@@ -41,16 +41,16 @@
         tools:layout="@layout/fragment_confirm_photo" >
         <action
             android:id="@+id/action_confirmPhotoFragment_to_vegetationStateQuestionFragment"
-            app:destination="@id/vegetationStateQuestionFragment" />
+            app:destination="@id/vegetationStateAssessmentFragment" />
         <action
             android:id="@+id/action_confirmPhotoFragment_to_photoUploadFragment"
             app:destination="@id/photoUploadFragment" />
     </fragment>
     <fragment
-        android:id="@+id/vegetationStateQuestionFragment"
-        android:name="com.eles.towerhunter.views.vegetationStateQuestionFragment.VegetationStateQuestionFragment"
+        android:id="@+id/vegetationStateAssessmentFragment"
+        android:name="com.eles.towerhunter.views.vegetationStateAssessmentFragment.VegetationStateAssessmentFragment"
         android:label="fragment_vegetation_state_question"
-        tools:layout="@layout/fragment_vegetation_state_question" >
+        tools:layout="@layout/fragment_vegetation_state_assessment" >
         <action
             android:id="@+id/action_vegetationStateQuestionFragment_to_photoUploadFragment"
             app:destination="@id/photoUploadFragment" />

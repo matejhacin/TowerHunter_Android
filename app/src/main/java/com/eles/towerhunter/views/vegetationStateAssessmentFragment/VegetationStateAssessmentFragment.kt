@@ -1,4 +1,4 @@
-package com.eles.towerhunter.views.vegetationStateQuestionFragment
+package com.eles.towerhunter.views.vegetationStateAssessmentFragment
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -7,25 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.data.VegetationState
-import com.eles.towerhunter.databinding.FragmentVegetationStateQuestionBinding
+import com.eles.towerhunter.databinding.FragmentVegetationStateAssessmentBinding
 import com.eles.towerhunter.helpers.extensions.requireAppCompatActivity
-import kotlinx.android.synthetic.main.fragment_vegetation_state_question.*
 
-class VegetationStateQuestionFragment : Fragment() {
+class VegetationStateAssessmentFragment : Fragment() {
 
-    private val viewModel: VegetationStateQuestionViewModel by viewModels()
-    private var _binding: FragmentVegetationStateQuestionBinding? = null
+    private val viewModel: VegetationStateAssessmentViewModel by viewModels()
+    private var _binding: FragmentVegetationStateAssessmentBinding? = null
     private val views get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentVegetationStateQuestionBinding.inflate(inflater, container, false)
+        _binding = FragmentVegetationStateAssessmentBinding.inflate(inflater, container, false)
         return views.root
     }
 
