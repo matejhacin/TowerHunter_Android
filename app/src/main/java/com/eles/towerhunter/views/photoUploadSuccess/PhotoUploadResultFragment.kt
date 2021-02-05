@@ -3,14 +3,16 @@ package com.eles.towerhunter.views.photoUploadSuccess
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.FragmentPhotoUploadResultBinding
-import com.eles.towerhunter.helpers.extensions.requireAppCompatActivity
+import com.eles.towerhunter.helpers.extensions.configureToolbar
 import kotlinx.android.synthetic.main.fragment_photo_upload_result.*
 
 class PhotoUploadResultFragment : Fragment() {
@@ -31,18 +33,30 @@ class PhotoUploadResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
+        initClickListeners()
     }
 
     private fun initUi() {
-        views.newPhotoButton.setOnClickListener { navigateToCameraView() }
+        configureToolbar(true, true, R.drawable.ic_close_white)
 
         val success = args.uploadSuccess
         imageView.setImageResource(if (success) R.drawable.img_photo_upload_success else R.drawable.img_photo_upload_fail)
         messageTextView.text = if (success) getString(R.string.photo_upload_result_success) else getString(R.string.photo_upload_result_fail)
     }
 
+    private fun initClickListeners() {
+        views.newPhotoButton.setOnClickListener { navigateToCameraView() }
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            navigateToMainMenu()
+        }
+    }
+
     private fun navigateToCameraView() {
-        requireView().findNavController().navigate(R.id.action_photoUploadSuccessFragment_to_cameraFragment)
+        requireView().findNavController().navigate(R.id.action_photoUploadResultFragment_to_cameraFragment)
+    }
+
+    private fun navigateToMainMenu() {
+        requireView().findNavController().navigate(R.id.action_photoUploadResultFragment_to_mainMenuFragment)
     }
 
 }

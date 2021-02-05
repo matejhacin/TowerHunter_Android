@@ -20,7 +20,7 @@ import java.io.File
 
 class ImageUploadClient {
 
-    fun createImage(image: PhotoCapture, onComplete: ((Boolean) -> Unit)) {
+    fun createImage(image: PhotoCapture, onComplete: ((Boolean, Throwable?) -> Unit)) {
         val dto = ImageMetaDataDTO(
                 image.geoLocation?.latitude!!,
                 image.geoLocation.longitude,
@@ -34,17 +34,17 @@ class ImageUploadClient {
             override fun onResponse(call: Call<ImageUrlDTO>, response: Response<ImageUrlDTO>) {
                 when (response.isSuccessful) {
                     true -> uploadImage(response.body()!!.url, image, onComplete)
-                    false -> onComplete(false)
+                    false -> onComplete(false, null)
                 }
             }
 
             override fun onFailure(call: Call<ImageUrlDTO>, t: Throwable) {
-                onComplete(false)
+                onComplete(false, t)
             }
         })
     }
 
-    private fun uploadImage(uploadUrl: String, image: PhotoCapture, onComplete: ((Boolean) -> Unit)) {
+    private fun uploadImage(uploadUrl: String, image: PhotoCapture, onComplete: ((Boolean, Throwable?) -> Unit)) {
         val file = File(image.uri?.path!!)
         AndroidNetworking.put(uploadUrl)
                 .addFileBody(file)
@@ -53,11 +53,11 @@ class ImageUploadClient {
                 .build()
                 .getAsOkHttpResponse(object : OkHttpResponseListener {
                     override fun onResponse(response: okhttp3.Response?) {
-                        onComplete(response?.isSuccessful == true)
+                        onComplete(response?.isSuccessful == true, null)
                     }
 
                     override fun onError(anError: ANError?) {
-                        onComplete(false)
+                        onComplete(false, anError?.cause?.cause)
                     }
                 })
     }

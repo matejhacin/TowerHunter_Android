@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.RetryFailedUploadsFragmentBinding
+import com.eles.towerhunter.helpers.extensions.configureToolbar
 
 class RetryFailedUploadsFragment : Fragment() {
 
@@ -29,28 +30,32 @@ class RetryFailedUploadsFragment : Fragment() {
     }
 
     private fun initUi() {
+        configureToolbar(true, true)
         views.finishButton.isVisible = false
         views.finishButton.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     private fun initData() {
         viewModel.uploadedCount.observe(viewLifecycleOwner) {
-            updateState()
+            updateUploadCount()
+        }
+        viewModel.uploadFinished.observe(viewLifecycleOwner) {
+            uploadFinished()
         }
         viewModel.error.observe(viewLifecycleOwner) {
             showError()
         }
     }
 
-    private fun updateState() {
+    private fun updateUploadCount() {
         val uploadedCount = viewModel.uploadedCount.value
         val totalCount = viewModel.failedUploadsCount
         views.textView.text = "${getString(R.string.retry_failed_uploads_progress)}\n$uploadedCount/$totalCount"
+    }
 
-        if (uploadedCount == totalCount) {
-            views.progressBar.isVisible = false
-            views.finishButton.isVisible = true
-        }
+    private fun uploadFinished() {
+        views.progressBar.isVisible = false
+        views.finishButton.isVisible = true
     }
 
     private fun showError() {

@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.FragmentConfirmPhotoBinding
+import com.eles.towerhunter.helpers.extensions.configureToolbar
 
 class ConfirmPhotoFragment : Fragment() {
 
@@ -25,6 +26,7 @@ class ConfirmPhotoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        configureToolbar(true, true)
         initUi()
     }
 

@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.FragmentMainMenuBinding
 import com.eles.towerhunter.helpers.extensions.requireAppCompatActivity
+import com.eles.towerhunter.helpers.extensions.configureToolbar
 
 class MainMenuFragment : Fragment() {
 
@@ -29,24 +31,25 @@ class MainMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
+        overrideBackButton()
     }
 
     override fun onResume() {
         super.onResume()
-        requireAppCompatActivity().supportActionBar?.show()
-        requireAppCompatActivity().supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white)
         requireAppCompatActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
-    override fun onPause() {
-        super.onPause()
-        requireAppCompatActivity().supportActionBar?.setHomeAsUpIndicator(null)
-    }
-
     private fun initUi() {
+        configureToolbar(true, true, R.drawable.ic_close_white)
         views.uploadFailsButton.visibility = if (viewModel.hasPendingUploads) View.VISIBLE else View.GONE
         views.newPhotoButton.setOnClickListener { navigateToNewPhotoView() }
         views.uploadFailsButton.setOnClickListener { navigateToRetryFailedUploadsView() }
+    }
+
+    private fun overrideBackButton() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            requireActivity().finishAndRemoveTask()
+        }
     }
 
     private fun navigateToNewPhotoView() {

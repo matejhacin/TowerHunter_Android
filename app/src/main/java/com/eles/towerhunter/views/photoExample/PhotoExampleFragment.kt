@@ -6,13 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.databinding.FragmentPhotoExampleBinding
 import com.eles.towerhunter.helpers.extensions.requireAppCompatActivity
-import com.eles.towerhunter.views.activities.MainActivity
+import com.eles.towerhunter.helpers.extensions.configureToolbar
 
 class PhotoExampleFragment : Fragment() {
 
@@ -29,12 +27,12 @@ class PhotoExampleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        configureToolbar(true, true)
         initClickListener()
     }
 
     override fun onResume() {
         super.onResume()
-        requireAppCompatActivity().supportActionBar?.show()
         requireAppCompatActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
     }
 

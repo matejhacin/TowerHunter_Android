@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import com.eles.towerhunter.R
 import com.eles.towerhunter.data.VegetationState
 import com.eles.towerhunter.databinding.FragmentVegetationStateAssessmentBinding
+import com.eles.towerhunter.helpers.extensions.configureToolbar
 import com.eles.towerhunter.helpers.extensions.requireAppCompatActivity
 
 class VegetationStateAssessmentFragment : Fragment() {
@@ -29,12 +30,12 @@ class VegetationStateAssessmentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        configureToolbar(true, true)
         initUi()
     }
 
     override fun onResume() {
         super.onResume()
-        requireAppCompatActivity().supportActionBar?.show()
         requireAppCompatActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 

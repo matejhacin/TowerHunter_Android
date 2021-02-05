@@ -24,7 +24,7 @@ class PhotoUploadViewModel(
             return
         }
 
-        uploadClient.createImage(photo) { success ->
+        uploadClient.createImage(photo) { success, exception ->
             if (success) {
                 deleteLocalFile()
             } else {
