@@ -6,13 +6,16 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="320dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:src="@drawable/img_landscape_warning"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="80dp"
+        android:adjustViewBounds="true"/>
 
     <TextView
         style="@style/Text.Regular"

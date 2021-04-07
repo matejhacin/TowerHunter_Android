@@ -15,13 +15,13 @@ object RestClient {
     private val client: OkHttpClient
         get() = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .connectTimeout(20L, TimeUnit.SECONDS)
-            .readTimeout(20L, TimeUnit.SECONDS)
-            .writeTimeout(20L, TimeUnit.SECONDS)
+            .connectTimeout(60L, TimeUnit.SECONDS)
+            .readTimeout(60L, TimeUnit.SECONDS)
+            .writeTimeout(60L, TimeUnit.SECONDS)
             .build()
 
-    val retrofit = Retrofit.Builder()
-        .baseUrl(Constants.Network.BASE_URL_PRODUCTION)
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(Constants.Network.BASE_URL_STAGING)
         .client(client)
         .addConverterFactory(GsonConverterFactory.create(Gson()))
         .build()

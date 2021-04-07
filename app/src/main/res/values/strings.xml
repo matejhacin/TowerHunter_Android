@@ -28,5 +28,6 @@
     <string name="retry_failed_uploads_progress">Fotografije se pošiljajo</string>
     <string name="retry_failed_uploads_button_done">Nazaj</string>
     <string name="retry_failed_uploads_error">Pri pošiljanju je prišlo do težave, poskusite kasneje.</string>
+    <string name="retry_failed_uploads_success">Vse fotografije so bile uspešno poslane.</string>
     <string name="photo_upload_in_progress">Fotografija se pošilja</string>
 </resources>

@@ -70,10 +70,8 @@ object LocalStorage {
             val serializedData = sharedPreferences.getString(SP_FAILED_UPLOADS_LIST, null)
             if (serializedData != null) {
                 return try {
-                    gson.fromJson<List<PhotoCapture>>(
-                        serializedData,
-                        object : TypeToken<List<PhotoCapture>>() {}.type
-                    )
+                    val photoList = gson.fromJson<List<PhotoCapture>>(serializedData, object : TypeToken<List<PhotoCapture>>() {}.type)
+                    filterOutBadObjects(photoList)
                 } catch (e: Exception) {
                     listOf()
                 }
@@ -85,6 +83,18 @@ object LocalStorage {
         val updatedList = failedUploads.toMutableList()
         updatedList.add(photoCapture)
         failedUploads = updatedList
+    }
+
+    private fun filterOutBadObjects(photos: List<PhotoCapture>): List<PhotoCapture> {
+        val filteredList = mutableListOf<PhotoCapture>()
+
+        photos.forEach { photoCapture ->
+            if (photoCapture.isReadyForUpload) {
+                filteredList.add(photoCapture)
+            }
+        }
+
+        return filteredList
     }
 
 }

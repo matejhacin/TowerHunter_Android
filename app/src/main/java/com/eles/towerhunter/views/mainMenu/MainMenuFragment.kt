@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.eles.towerhunter.R
@@ -41,7 +42,7 @@ class MainMenuFragment : Fragment() {
 
     private fun initUi() {
         configureToolbar(true, true, R.drawable.ic_close_white)
-        views.uploadFailsButton.visibility = if (viewModel.hasPendingUploads) View.VISIBLE else View.GONE
+        views.uploadFailsButton.isVisible = viewModel.hasPendingUploads
         views.newPhotoButton.setOnClickListener { navigateToNewPhotoView() }
         views.uploadFailsButton.setOnClickListener { navigateToRetryFailedUploadsView() }
     }

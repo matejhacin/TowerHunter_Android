@@ -56,10 +56,13 @@ class RetryFailedUploadsFragment : Fragment() {
     private fun uploadFinished() {
         views.progressBar.isVisible = false
         views.finishButton.isVisible = true
+        views.textView.text = getString(R.string.retry_failed_uploads_success)
+        views.imageView.setImageResource(R.drawable.img_photo_upload_success)
     }
 
     private fun showError() {
         views.textView.text = getString(R.string.retry_failed_uploads_error)
+        views.imageView.setImageResource(R.drawable.img_photo_upload_fail)
         views.finishButton.isVisible = true
         views.progressBar.isVisible = false
     }

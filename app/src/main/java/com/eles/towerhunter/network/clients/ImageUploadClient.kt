@@ -1,17 +1,13 @@
 package com.eles.towerhunter.network.clients
 
-import android.util.Log
-import com.androidnetworking.AndroidNetworking
-import com.androidnetworking.common.Priority
-import com.androidnetworking.error.ANError
-import com.androidnetworking.interfaces.JSONObjectRequestListener
-import com.androidnetworking.interfaces.OkHttpResponseListener
 import com.eles.towerhunter.data.VegetationState
 import com.eles.towerhunter.data.dto.ImageMetaDataDTO
 import com.eles.towerhunter.data.dto.ImageUrlDTO
 import com.eles.towerhunter.data.models.PhotoCapture
 import com.eles.towerhunter.network.RestClient
-import org.json.JSONObject
+
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,21 +41,22 @@ class ImageUploadClient {
     }
 
     private fun uploadImage(uploadUrl: String, image: PhotoCapture, onComplete: ((Boolean, Throwable?) -> Unit)) {
-        val file = File(image.uri?.path!!)
-        AndroidNetworking.put(uploadUrl)
-                .addFileBody(file)
-                .setPriority(Priority.HIGH)
-                .setContentType("image/jpeg")
-                .build()
-                .getAsOkHttpResponse(object : OkHttpResponseListener {
-                    override fun onResponse(response: okhttp3.Response?) {
-                        onComplete(response?.isSuccessful == true, null)
-                    }
+        if (image.file == null) {
+            onComplete(false, Exception("Tried to upload an image that does not exist."))
+            return
+        }
 
-                    override fun onError(anError: ANError?) {
-                        onComplete(false, anError?.cause?.cause)
-                    }
-                })
+        val body = image.file!!.asRequestBody("image/jpeg".toMediaType())
+
+        RestClient.api.uploadImage(uploadUrl, body).enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                onComplete(response.isSuccessful, null)
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                onComplete(false, t)
+            }
+        })
     }
 
 }
